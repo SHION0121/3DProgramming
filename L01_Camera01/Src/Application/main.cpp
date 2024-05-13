@@ -74,11 +74,11 @@ void Application::Update()
 		Math::Matrix _mRotationX = Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(45.0f));
 		
 		//どこに配置されてるか
-		Math::Matrix _mTrans = Math::Matrix::CreateTranslation(0, 6.0f, -5.0f);
+		Math::Matrix _mTrans = Math::Matrix::CreateTranslation(0, 6.0f, -5.0f);;
 
 		static float _yRot = 0.0f;
 		Math::Matrix _mRotationY = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(_yRot));
-		_yRot += 0.5f;
+		//_yRot += 0.5f;
 
 		//カメラの「ワールド行列」を作成し、適応させる
 		Math::Matrix _worldMat = _mScale * _mRotationX * _mTrans * _mRotationY;
@@ -87,10 +87,24 @@ void Application::Update()
 
 	//ハム太郎の更新
 	{
-		if (GetAsyncKeyState('W') & 0x8000);
-		if (GetAsyncKeyState('A') & 0x8000);
-		if (GetAsyncKeyState('S') & 0x8000);
-		if (GetAsyncKeyState('D') & 0x8000);
+		//キャラクターの移動速度（マネしちゃだめですよ）
+		float moveSpd = 0.05f;
+		Math::Vector3 nowPos = m_HamuWorld.Translation();
+
+		//移動したい「方向ベクトル」＝絶対に長さが「1」でなければならない！
+		Math::Vector3 moveVec = Math::Vector3::Zero;
+		if (GetAsyncKeyState('W') & 0x8000) { moveVec.z = 1.0f; }
+		if (GetAsyncKeyState('A') & 0x8000) { moveVec.x = -1.0f; }
+		if (GetAsyncKeyState('S') & 0x8000) { moveVec.z = -1.0f; }
+		if (GetAsyncKeyState('D') & 0x8000) { moveVec.x = 1.0f; }
+
+		//正規化（ノーマライズ）
+		moveVec.Normalize();
+		moveVec *= moveSpd;
+		nowPos += moveVec;
+
+		//キャラクターのワールド行列を作る処理
+		m_HamuWorld = Math::Matrix::CreateTranslation(nowPos);
 	}
 }
 
