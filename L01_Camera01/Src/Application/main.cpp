@@ -1,4 +1,6 @@
 ﻿#include "main.h"
+#include"HamuHamu.h"
+#include"Terrain.h"
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // エントリーポイント
@@ -85,26 +87,12 @@ void Application::Update()
 		m_spCamera->SetCameraMatrix(_worldMat);
 	}
 
-	//ハム太郎の更新
+	//ゲームオブジェクトの更新
 	{
-		//キャラクターの移動速度（マネしちゃだめですよ）
-		float moveSpd = 0.05f;
-		Math::Vector3 nowPos = m_HamuWorld.Translation();
-
-		//移動したい「方向ベクトル」＝絶対に長さが「1」でなければならない！
-		Math::Vector3 moveVec = Math::Vector3::Zero;
-		if (GetAsyncKeyState('W') & 0x8000) { moveVec.z = 1.0f; }
-		if (GetAsyncKeyState('A') & 0x8000) { moveVec.x = -1.0f; }
-		if (GetAsyncKeyState('S') & 0x8000) { moveVec.z = -1.0f; }
-		if (GetAsyncKeyState('D') & 0x8000) { moveVec.x = 1.0f; }
-
-		//正規化（ノーマライズ）
-		moveVec.Normalize();
-		moveVec *= moveSpd;
-		nowPos += moveVec;
-
-		//キャラクターのワールド行列を作る処理
-		m_HamuWorld = Math::Matrix::CreateTranslation(nowPos);
+		for (std::shared_ptr<KdGameObject>obj : m_GameObjList)
+		{
+			obj->Update();
+		}
 	}
 }
 
@@ -162,9 +150,12 @@ void Application::Draw()
 	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginLit();
 	{
-		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_spPoly, m_HamuWorld);
+		//全ゲームオブジェクト描画
+		for (std::shared_ptr<KdGameObject>obj : m_GameObjList)
+		{
+			obj->DrawLit();
+		}
 
-		KdShaderManager::Instance().m_StandardShader.DrawModel(*m_spModel);
 	}
 	KdShaderManager::Instance().m_StandardShader.EndLit();
 
@@ -272,18 +263,24 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	m_spCamera = std::make_shared<KdCamera>();
 
-	//==============================================================
+	//===================================================================
 	// ハムスター初期化
 	//===================================================================
-	m_spPoly = std::make_shared<KdSquarePolygon>();
-	m_spPoly->SetMaterial("Asset/Data/LessonData/Character/Hamu.png");
-	m_spPoly->SetPivot(KdSquarePolygon::PivotType::Center_Bottom);
+	std::shared_ptr<HamuHamu> _Hamu = std::make_shared<HamuHamu>();
+	_Hamu->Init();
 
+	//★重要★
+	m_GameObjList.push_back(_Hamu);
 	//===================================================================
 	// 地形初期化
 	//===================================================================
-	m_spModel = std::make_shared<KdModelData>();
-	m_spModel->Load("Asset/Data/LessonData/Terrain/Terrain.gltf");
+	std::shared_ptr<Terrain> _Terrain = std::make_shared<Terrain>();
+	_Terrain->Init();
+
+	//★重要★
+	m_GameObjList.push_back(_Terrain);
+	
+
 	return true;
 }
 
