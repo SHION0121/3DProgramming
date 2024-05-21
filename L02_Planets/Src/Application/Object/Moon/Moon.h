@@ -15,6 +15,6 @@ private:
 	std::shared_ptr<KdModelData>m_Moon;
 	Math::Matrix m_worldMat, m_rotMat, m_transMat;
 
-	Math::Vector3 m_moonPos;
+	Math::Vector3 m_Pos;
 
 };

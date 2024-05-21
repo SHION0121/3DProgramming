@@ -14,4 +14,6 @@ public:
 private:
 	std::shared_ptr<KdModelData> m_Sun;
 	Math::Matrix m_transMat;
+
+	Math::Vector3 m_Pos;
 };

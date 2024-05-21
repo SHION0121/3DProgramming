@@ -15,6 +15,6 @@ private:
 	std::shared_ptr<KdModelData>m_Earth;
 	Math::Matrix m_worldMat,m_rotMat,m_transMat;
 
-	Math::Vector3 m_earthPos;
+	Math::Vector3 m_Pos;
 
 };

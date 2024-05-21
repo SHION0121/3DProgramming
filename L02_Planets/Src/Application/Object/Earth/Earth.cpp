@@ -31,10 +31,10 @@ void Earth::DrawLit()
 	a = cos(degB * 3.14 / 180) * c;
 	b = sin(degB * 3.14 / 180) * c;
 
-	m_earthPos.x = 0 + a;
-	m_earthPos.z = 0 + b;
+	m_Pos.x = 0 + a;
+	m_Pos.z = 0 + b;
 
-	m_transMat = Math::Matrix::CreateTranslation(m_earthPos.x, 0, m_earthPos.z);
+	m_transMat = Math::Matrix::CreateTranslation(m_Pos.x, 0, m_Pos.z);
 
 	m_worldMat = m_rotMat * m_transMat;
 
