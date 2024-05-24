@@ -1,6 +1,7 @@
 ﻿#include "main.h"
 #include"../Application/Object/Sun/Sun.h"
 #include"../Application/Object/Earth/Earth.h"
+#include"../Application//Object/Moon/Moon.h"
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // エントリーポイント
@@ -250,6 +251,11 @@ bool Application::Init(int w, int h)
 	std::shared_ptr<Earth> _Earth = std::make_shared<Earth>();
 	_Earth->Init();
 	m_GameObjList.push_back(_Earth);
+
+	//月
+	std::shared_ptr<Moon> _Moon = std::make_shared<Moon>();
+	_Moon->Init();
+	m_GameObjList.push_back(_Moon);
 
 	return true;
 }

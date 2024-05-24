@@ -22,11 +22,11 @@ void Earth::DrawLit()
 {
 
 	static float deg = 0;
-	deg += 1;
-	if (deg > 360) { deg -= 360; }
+	deg -= 1;
+	if (deg < -360) { deg += 360; }
 	m_rotMat = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(deg));
 
-	static float a, b, c = 6, degB=0;
+	static float a, b, c = 5, degB = 360;
 	degB -= 1.0f;
 	a = cos(degB * 3.14 / 180) * c;
 	b = sin(degB * 3.14 / 180) * c;
