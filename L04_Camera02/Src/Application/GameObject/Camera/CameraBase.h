@@ -13,6 +13,16 @@ public:
 	//カメラのターゲットとしたいオブジェクト情報の設定
 	void SetTarget(std::shared_ptr<KdGameObject>target) { m_wpTarget = target; }
 
+	const Math::Matrix GetRotationMatrix() const
+	{
+		return Math::Matrix::CreateFromYawPitchRoll(DirectX::XMConvertToRadians(m_DegAng.y), DirectX::XMConvertToRadians(m_DegAng.x), DirectX::XMConvertToRadians(m_DegAng.z));
+	}
+
+	const Math::Matrix GetRotationYMatrix() const
+	{
+		return Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_DegAng.y));
+	}
+
 protected:
 	void 	UpdateRotateByMouse();
 
