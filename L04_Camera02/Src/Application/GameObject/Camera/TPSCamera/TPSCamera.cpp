@@ -32,7 +32,7 @@ void TPSCamera::Update()
 
 	m_mRotation = GetRotationMatrix();
 
-	m_mWorld = m_mRotation * m_mLocalPos * _targetMat;
+	m_mWorld = m_mLocalPos * m_mRotation * _targetMat;
 
 	CameraBase::Update();
 
