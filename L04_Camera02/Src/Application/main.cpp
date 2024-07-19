@@ -263,7 +263,7 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// カメラ初期化
 	//===================================================================
-	std::shared_ptr<TPSCamera>_camera = std::make_shared<TPSCamera>();
+	std::shared_ptr<FPSCamera>_camera = std::make_shared<FPSCamera>();
 	_camera->Init();
 	_camera->SetTarget(_character);
 	_camera->RegisHitObject(_terrain);

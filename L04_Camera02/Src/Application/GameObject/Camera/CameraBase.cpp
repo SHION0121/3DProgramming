@@ -38,4 +38,7 @@ void CameraBase::UpdateRotateByMouse()
 	//上の差分を基にカメラの回転角度を求める
 	m_DegAng.x += mouseMove.y * 0.15f;
 	m_DegAng.y += mouseMove.x * 0.15f;
+
+	//回転制御
+	m_DegAng.x = std::clamp(m_DegAng.x, -45.0f, 45.0f);
 }
